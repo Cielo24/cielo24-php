@@ -1,0 +1,6 @@
+# Unnecessary PhpStorm files
+.idea/
+
+# Unnecessary composer files
+vendor/
+composer.lock
