@@ -1,6 +1,6 @@
-﻿<?php
+<?php
 
-require_once("BaseOptions.php");
+namespace Cielo24;
 
 class JobListOptions extends BaseOptions
 {

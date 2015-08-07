@@ -1,4 +1,7 @@
-﻿<?php
+<?php
+
+namespace Cielo24;
+
 
 /* The base class. All of the other option classes inherit from it. */
 

@@ -1,5 +1,7 @@
 <?php
 
+use Cielo24\WebError;
+
 require_once("ActionsTest.php");
 
 class AccessTest extends ActionsTest
@@ -38,7 +40,7 @@ class AccessTest extends ActionsTest
         // Logout
         $this->actions->logout($this->apiToken);
         // Should not be able to use the API with invalid API token
-        $this->setExpectedException('WebError');
+        $this->setExpectedException('Cielo24\WebError');
         $this->actions->getJobList($this->apiToken);
     }
 
@@ -58,7 +60,7 @@ class AccessTest extends ActionsTest
     {
         $this->actions->removeAPIKey($this->apiToken, $this->secureKey);
         // Should not be able to login using invalid API secure key
-        $this->setExpectedException('WebError');
+        $this->setExpectedException('Cielo24\WebError');
         $this->actions->login($this->config->username, $this->secureKey);
     }
 

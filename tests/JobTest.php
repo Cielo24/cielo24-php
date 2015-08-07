@@ -1,8 +1,12 @@
 <?php
 
+use Cielo24\CaptionOptions;
+use Cielo24\CaptionFormat;
+use Cielo24\TextCase;
+use Cielo24\Fidelity;
+use Cielo24\Priority;
+
 require_once("ActionsTest.php");
-require_once("../src/cielo24/options/CaptionOptions.php");
-require_once("../src/cielo24/Enums.php");
 
 class JobTest extends ActionsTest {
 
@@ -74,9 +78,11 @@ class JobTest extends ActionsTest {
     public function testGetMedia()
     {
         // Add media to job first
-        $this->actions->addMediaToJobUrl($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
+        $task_id = $this->actions->addMediaToJobUrl($this->apiToken, $this->jobId, $this->config->sampleVideoUri);
+
         // Test get media
         $uri = $this->actions->getMedia($this->apiToken, $this->jobId);
+
         if (!filter_var($uri, FILTER_VALIDATE_URL)) {
             $this->fail("Did not receive a URL back.");
         }
@@ -124,7 +130,8 @@ class JobTest extends ActionsTest {
 
     public function testAddMediaToJobFile()
     {
-        $this->taskId = $this->actions->addMediaToJobFile($this->apiToken, $this->jobId, $this->config->sampleVideoFilePath);
+        $file = __DIR__ . $this->config->sampleVideoFilePath;
+        $this->taskId = $this->actions->addMediaToJobFile($this->apiToken, $this->jobId, $file);
         $this->assertEquals(32, strlen($this->taskId));
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
-require_once("../src/cielo24/Enums.php");
+use Cielo24\WebError;
+use Cielo24\ErrorType;
+
 require_once("Config.php");
 require_once("ActionsTest.php");
 
@@ -11,7 +13,7 @@ class SequentialTest extends ActionsTest {
     public function setUp()
     {
         $this->config = new Config();
-        $this->actions = new Actions($this->config->serverUrl);
+        $this->actions = new Cielo24\Actions($this->config->serverUrl);
     }
 
     public function testSequence()

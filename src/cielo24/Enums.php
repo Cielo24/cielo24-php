@@ -1,5 +1,7 @@
 <?php
 
+namespace Cielo24;
+
 class ErrorType
 {
     const LOGIN_INVALID = "LOGIN_INVALID";

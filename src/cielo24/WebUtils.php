@@ -1,5 +1,7 @@
 <?php
 
+namespace Cielo24;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
@@ -42,7 +44,7 @@ class WebUtils
     }
 }
 
-class WebError extends Exception
+class WebError extends \Exception
 {
     public $errorType;
     public $errorComment;
