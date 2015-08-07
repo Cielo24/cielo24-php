@@ -19,8 +19,6 @@
     "phpunit/phpunit": "4.5.*"
   },
   "autoload": {
-    "psr-0": {
-      "": "src/"
-    }
+    "files": [ "src/cielo24/Cielo24.php" ]
   }
 }

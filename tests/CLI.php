@@ -1,9 +1,8 @@
 <?php
 
-require_once "../vendor/autoload.php";
-include "../src/cielo24/Actions.php";
+require_once __DIR__."/../vendor/autoload.php";
 
-$actions = new Actions("http://api-dev.cielo24.com");
+$actions = new Cielo24\Actions("http://api-dev.cielo24.com");
 $code = "return \$actions->" . $argv[1];
 $result = eval($code);
 print_r($result);

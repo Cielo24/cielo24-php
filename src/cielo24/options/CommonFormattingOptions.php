@@ -1,6 +1,7 @@
-﻿<?php
+<?php
 
-require_once("BaseOptions.php");
+namespace Cielo24;
+
 
 /* Options found in both Transcript and Caption options
  * All of the option properties are nullable. Properties that are null are ignored by the toQuery() method

@@ -1,6 +1,6 @@
 <?php
 
-require_once("WebUtils.php");
+namespace Cielo24;
 
 class Actions
 {

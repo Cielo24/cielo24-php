@@ -1,6 +1,6 @@
-﻿<?php
+<?php
 
-require_once("CommonFormattingOptions.php");
+namespace Cielo24;
 
 class TranscriptOptions extends CommonFormattingOptions
 {
