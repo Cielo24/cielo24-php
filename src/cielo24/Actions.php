@@ -25,6 +25,7 @@ class Actions
     const GET_CAPTION_PATH = "/api/job/get_caption";
     const GET_ELEMENT_LIST_PATH = "/api/job/get_elementlist";
     const GET_LIST_OF_ELEMENT_LISTS_PATH = "/api/job/list_elementlists";
+    const AGGREGATE_STATISTICS_PATH = "/api/job/aggregate_statistics";
 
     public function __construct($base_url = "https://api.cielo24.com")
     {
@@ -285,6 +286,32 @@ class Actions
     {
         $query_dict = $this->_initJobReqDict($api_token, $job_id);
         return WebUtils::getJson($this->BASE_URL, Actions::GET_LIST_OF_ELEMENT_LISTS_PATH, "GET", WebUtils::BASIC_TIMEOUT, $query_dict);
+    }
+
+    public function aggregateStatistics($api_token,
+                                        $metrics = null,
+                                        $group_by = null,
+                                        $start_date = null,
+                                        $end_date = null,
+                                        $account_id = null)
+    {
+        $query_dict = $this->_initAccessReqDict($api_token);
+        if ($metrics != null) {
+            $query_dict["metrics"] = json_encode($metrics);
+        }
+        if ($group_by != null) {
+            $query_dict["group_by"] = $group_by;
+        }
+        if ($start_date != null) {
+            $query_dict["start_date"] = $start_date;
+        }
+        if ($end_date != null) {
+            $query_dict["end_date"] = $end_date;
+        }
+        if ($account_id != null) {
+            $query_dict["account_id"] = $account_id;
+        }
+        return WebUtils::getJson($this->BASE_URL, Actions::AGGREGATE_STATISTICS_PATH, "GET", WebUtils::BASIC_TIMEOUT, $query_dict);
     }
 
     /// PRIVATE HELPER METHODS ///

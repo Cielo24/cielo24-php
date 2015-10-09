@@ -20,6 +20,16 @@ class JobTest extends ActionsTest {
         $this->jobId = $this->actions->createJob($this->apiToken, "PHP_test_job")["JobId"];
     }
 
+    public function tearDown()
+    {
+        parent::tearDown();
+        try {
+            $this->actions->deleteJob($this->apiToken, $this->jobId);
+        } catch (\Cielo24\WebError $e) {
+            // Pass silently
+        }
+    }
+
     public function testOptions()
     {
         $options = new CaptionOptions();
@@ -133,5 +143,18 @@ class JobTest extends ActionsTest {
         $file = __DIR__ . $this->config->sampleVideoFilePath;
         $this->taskId = $this->actions->addMediaToJobFile($this->apiToken, $this->jobId, $file);
         $this->assertEquals(32, strlen($this->taskId));
+    }
+
+    public function testAggregateStatistics()
+    {
+        $response = $this->actions->aggregateStatistics($this->apiToken,
+                                                        ["billable_minutes_total", "billable_minutes_professional"],
+                                                        'month',
+                                                        '2015-06-25T00:00:00.000000',
+                                                        '2015-07-25T00:00:00.000000',
+                                                         '*');
+        $this->assertEquals($response["data"]->length, 2);
+        $this->assertTrue(array_key_exists("billable_minutes_total", $response["data"][0]));
+        $this->assertTrue(array_key_exists("billable_minutes_total", $response["data"][0]));
     }
 }
