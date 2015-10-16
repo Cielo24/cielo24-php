@@ -93,11 +93,13 @@ class Actions
     }
 
     /* Returns a new Secure API key */
-    public function generateAPIKey($api_token, $username, $force_new = false)
+    public function generateAPIKey($api_token, $sub_account = null, $force_new = false)
     {
-        $this->_assertArgument($username, "Username");
         $query_dict = $this->_initAccessReqDict($api_token);
-        $query_dict["account_id"] = $username;
+        if ($sub_account != null) {
+            // account_id parameter named subAccount for clarity
+            $query_dict["account_id"] = $sub_account;
+        }
         $query_dict["force_new"] = ($force_new) ? 'true' : 'false';
 
         $response = WebUtils::getJson($this->BASE_URL, Actions::GENERATE_API_KEY_PATH, "GET", WebUtils::BASIC_TIMEOUT, $query_dict);
@@ -293,7 +295,7 @@ class Actions
                                         $group_by = null,
                                         $start_date = null,
                                         $end_date = null,
-                                        $account_id = null)
+                                        $sub_account = null)
     {
         $query_dict = $this->_initAccessReqDict($api_token);
         if ($metrics != null) {
@@ -308,8 +310,9 @@ class Actions
         if ($end_date != null) {
             $query_dict["end_date"] = $end_date;
         }
-        if ($account_id != null) {
-            $query_dict["account_id"] = $account_id;
+        if ($sub_account != null) {
+            // account_id parameter named subAccount for clarity
+            $query_dict["account_id"] = $sub_account;
         }
         return WebUtils::getJson($this->BASE_URL, Actions::AGGREGATE_STATISTICS_PATH, "GET", WebUtils::BASIC_TIMEOUT, $query_dict);
     }
