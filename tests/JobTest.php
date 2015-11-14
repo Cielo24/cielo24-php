@@ -153,7 +153,7 @@ class JobTest extends ActionsTest {
                                                         '2015-06-25T00:00:00.000000',
                                                         '2015-07-25T00:00:00.000000',
                                                          '*');
-        $this->assertEquals($response["data"]->length, 2);
+        $this->assertEquals(count($response["data"]), 2);
         $this->assertTrue(array_key_exists("billable_minutes_total", $response["data"][0]));
         $this->assertTrue(array_key_exists("billable_minutes_total", $response["data"][0]));
     }

@@ -19,14 +19,16 @@ class ActionsTest extends PHPUnit_Framework_TestCase
     }
 
     public function tearDown() {
-        try {
-            $this->actions->removeAPIKey($this->apiToken, $this->secureKey);
-        } catch (\Cielo24\WebError $e) {
-            if ($e->errorType == \Cielo24\ErrorType::ACCOUNT_UNPRIVILEGED) {
-                $this->apiToken = $this->actions->login($this->config->username, $this->config->password, true);
+        if ($this->apiToken != null && $this->secureKey != null) {
+            try {
                 $this->actions->removeAPIKey($this->apiToken, $this->secureKey);
-            } else {
-                // Pass silently
+            } catch (\Cielo24\WebError $e) {
+                if ($e->errorType == \Cielo24\ErrorType::ACCOUNT_UNPRIVILEGED) {
+                    $this->apiToken = $this->actions->login($this->config->username, $this->config->password, true);
+                    $this->actions->removeAPIKey($this->apiToken, $this->secureKey);
+                } else {
+                    // Pass silently
+                }
             }
         }
     }

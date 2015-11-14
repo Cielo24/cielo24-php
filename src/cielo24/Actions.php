@@ -347,9 +347,9 @@ class Actions
     private function _assertArgument($arg, $arg_name)
     {
         if ($arg == null) {
-            throw new InvalidArgumentException("Invalid " . $arg_name);
+            throw new \InvalidArgumentException("Invalid " . $arg_name);
         } elseif (gettype($arg) == "string" and strlen($arg) == 0) {
-            throw new InvalidArgumentException("Invalid " . $arg_name);
+            throw new \InvalidArgumentException("Invalid " . $arg_name);
         }
     }
 }
