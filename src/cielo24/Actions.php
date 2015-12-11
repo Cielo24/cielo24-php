@@ -25,6 +25,7 @@ class Actions
     const GET_CAPTION_PATH = "/api/job/get_caption";
     const GET_ELEMENT_LIST_PATH = "/api/job/get_elementlist";
     const GET_LIST_OF_ELEMENT_LISTS_PATH = "/api/job/list_elementlists";
+    const AGGREGATE_STATISTICS_PATH = "/api/job/aggregate_statistics";
 
     public function __construct($base_url = "https://api.cielo24.com")
     {
@@ -92,11 +93,13 @@ class Actions
     }
 
     /* Returns a new Secure API key */
-    public function generateAPIKey($api_token, $username, $force_new = false)
+    public function generateAPIKey($api_token, $sub_account = null, $force_new = false)
     {
-        $this->_assertArgument($username, "Username");
         $query_dict = $this->_initAccessReqDict($api_token);
-        $query_dict["account_id"] = $username;
+        if ($sub_account != null) {
+            // account_id parameter named subAccount for clarity
+            $query_dict["account_id"] = $sub_account;
+        }
         $query_dict["force_new"] = ($force_new) ? 'true' : 'false';
 
         $response = WebUtils::getJson($this->BASE_URL, Actions::GENERATE_API_KEY_PATH, "GET", WebUtils::BASIC_TIMEOUT, $query_dict);
@@ -287,6 +290,33 @@ class Actions
         return WebUtils::getJson($this->BASE_URL, Actions::GET_LIST_OF_ELEMENT_LISTS_PATH, "GET", WebUtils::BASIC_TIMEOUT, $query_dict);
     }
 
+    public function aggregateStatistics($api_token,
+                                        $metrics = null,
+                                        $group_by = null,
+                                        $start_date = null,
+                                        $end_date = null,
+                                        $sub_account = null)
+    {
+        $query_dict = $this->_initAccessReqDict($api_token);
+        if ($metrics != null) {
+            $query_dict["metrics"] = json_encode($metrics);
+        }
+        if ($group_by != null) {
+            $query_dict["group_by"] = $group_by;
+        }
+        if ($start_date != null) {
+            $query_dict["start_date"] = $start_date;
+        }
+        if ($end_date != null) {
+            $query_dict["end_date"] = $end_date;
+        }
+        if ($sub_account != null) {
+            // account_id parameter named subAccount for clarity
+            $query_dict["account_id"] = $sub_account;
+        }
+        return WebUtils::getJson($this->BASE_URL, Actions::AGGREGATE_STATISTICS_PATH, "GET", WebUtils::BASIC_TIMEOUT, $query_dict);
+    }
+
     /// PRIVATE HELPER METHODS ///
 
     /* Returns a dictionary with version, api_token and job_id key-value pairs (parameters used in almost every job-control action). */
@@ -317,9 +347,9 @@ class Actions
     private function _assertArgument($arg, $arg_name)
     {
         if ($arg == null) {
-            throw new InvalidArgumentException("Invalid " . $arg_name);
+            throw new \InvalidArgumentException("Invalid " . $arg_name);
         } elseif (gettype($arg) == "string" and strlen($arg) == 0) {
-            throw new InvalidArgumentException("Invalid " . $arg_name);
+            throw new \InvalidArgumentException("Invalid " . $arg_name);
         }
     }
 }
