@@ -14,6 +14,7 @@ class Actions
     const REMOVE_API_KEY_PATH = "/api/account/remove_api_key";
     const CREATE_JOB_PATH = "/api/job/new";
     const AUTHORIZE_JOB_PATH = "/api/job/authorize";
+    const MODIFY_JOB_PATH = "/api/job/modify";
     const DELETE_JOB_PATH = "/api/job/del";
     const GET_JOB_INFO_PATH = "/api/job/info";
     const GET_JOB_LIST_PATH = "/api/job/list";
@@ -144,6 +145,23 @@ class Actions
         // Nothing returned
         WebUtils::httpRequest($this->BASE_URL, Actions::AUTHORIZE_JOB_PATH, "GET", WebUtils::BASIC_TIMEOUT, $query_dict);
     }
+
+    /* Modify job parameters */
+    public function modifyJob($api_token, $job_id, $fidelity = null, $turnaround_hours = null, $priority = null)
+    {
+        $query_dict = $this->_initJobReqDict($api_token, $job_id);
+        if ($fidelity != null) {
+            $query_dict["transcription_fidelity"] = $fidelity;
+        }
+        if ($priority != null) {
+            $query_dict["priority"] = $priority;
+        }
+        if ($turnaround_hours != null) {
+            $query_dict["turnaround_hours"] = $turnaround_hours;
+        }
+        WebUtils::httpRequest($this->BASE_URL, Actions::MODIFY_JOB_PATH, "POST", WebUtils::BASIC_TIMEOUT, $query_dict);
+    }
+
 
     /* Deletes a job with job_id */
     public function deleteJob($api_token, $job_id)

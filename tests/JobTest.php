@@ -55,6 +55,12 @@ class JobTest extends ActionsTest {
     }
 
 
+    public function testModifyJob()
+    {
+        $this->actions->modifyJob($this->apiToken, $this->jobId, Fidelity::PROFESSIONAL, 36, Priority::ECONOMY);
+    }
+
+
     public function testDeleteJob()
     {
         $this->taskId = $this->actions->deleteJob($this->apiToken, $this->jobId);
